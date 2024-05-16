@@ -1,0 +1,7 @@
+
+[user]
+  name=ZafeerTaxGPT
+  email=zafeer@taxgpt.com
+[core]
+  sshCommand="ssh -i ~/.ssh/work"
+
