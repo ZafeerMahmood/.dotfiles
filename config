@@ -1,0 +1,14 @@
+# Personal Github
+Host pers
+  Hostname github.com
+  User git
+  IdentityFile ~/.ssh/personal
+  IdentitiesOnly yes
+
+# Work Github
+Host work
+  Hostname github.com
+  User git
+  IdentityFile ~/.ssh/work
+  IdentitiesOnly yes
+
