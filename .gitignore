@@ -1,0 +1,23 @@
+# SSH keys (config is fine, keys are NOT)
+ssh/id_*
+ssh/*.pub
+ssh/known_hosts
+ssh/authorized_keys
+
+# OS junk
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor temp files
+*.swp
+*.swo
+*~
+*.bak
+
+# Neovim plugin cache (lazy.nvim will rebuild)
+nvim/lazy-lock.json
+
+# Neovim generated files
+nvim/nul
+nvim/spell/*.spl

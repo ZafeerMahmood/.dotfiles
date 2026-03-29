@@ -1,0 +1,27 @@
+
+[includeIf "gitdir:~/Desktop/TREE/"]
+  path=./.gitconfig-personal
+
+[includeIf "gitdir:~/Desktop/Work/"]
+  path=./.gitconfig-work
+
+[user]
+	email = zafeer7460@gmail.com
+  name = ZafeerMahmood
+[core]
+	pager = delta
+
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	side-by-side = true
+	line-numbers = true
+	syntax-theme = GitHub
+	plus-style = "syntax #d4f8d4"
+	minus-style = "syntax #f8d4d4"
+	hunk-header-style = file line-number syntax
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default

@@ -1,0 +1,14 @@
+# Normalize line endings to LF in the repo, checkout as native
+* text=auto
+
+# Force LF for shell scripts (even on Windows checkout)
+*.sh text eol=lf
+.bash_profile text eol=lf
+.bashrc text eol=lf
+
+# Force CRLF for Windows-only files
+*.ps1 text eol=crlf
+
+# Binary fonts - don't touch
+*.ttf binary
+*.otf binary

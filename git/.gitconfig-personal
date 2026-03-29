@@ -1,0 +1,7 @@
+[user]
+  name= ZafeerMahmood
+  email= zafeer7460@gmail.com
+[core]
+  sshCommand="ssh -i ~/.ssh/personal"
+
+

@@ -1,0 +1,309 @@
+{
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "editor.fontFamily": "JetBrainsMonoNL Nerd Font Propo",
+  "editor.fontWeight": "400",
+  "editor.fontSize": 15,
+  "terminal.integrated.fontWeight": "300",
+  "workbench.iconTheme": "icons",
+  "workbench.tips.enabled": false,
+  "terminal.integrated.fontFamily": "JetBrainsMonoNL Nerd Font Propo",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.ruff": "explicit"
+  },
+  "editor.parameterHints.enabled": true,
+  "editor.minimap.enabled": false,
+  "editor.formatOnSave": false,
+  "editor.formatOnPaste": true,
+  "editor.fontLigatures": false,
+  "editor.tabSize": 2,
+  "editor.indentSize": 2,
+  "explorer.decorations.badges": true,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "editor.hover.enabled": "on",
+  "accessibility.verbosity.hover": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "security.workspace.trust.untrustedFiles": "open",
+  "typescript.preferences.quoteStyle": "single",
+  "javascript.preferences.quoteStyle": "single",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.formatOnSave": true
+  },
+  "terminal.integrated.env.windows": {},
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "tailwindCSS.includeLanguages": {
+    "html": "html",
+    "javascript": "javascript",
+    "css": "css"
+  },
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "settingsSync.ignoredExtensions": [],
+  "settingsSync.ignoredSettings": [],
+  "python.analysis.diagnosticSeverityOverrides": {},
+  "php.validate.run": "onType",
+  "workbench.colorCustomizations": {
+    "[Dark Decay]": {
+      "list.activeSelectionForeground": "#78dba9",
+      "list.activeSelectionBackground": "#1a2b2425",
+      "list.inactiveSelectionForeground": "#78dba9",
+      "list.inactiveSelectionBackground": "#13201b25",
+      "editorCursor.foreground": "#f6926a",
+      "editorCursor.background": "#171b20",
+      "list.focusForeground": "#78dba9",
+      "list.focusBackground": "#20403025",
+      "editor.selectionBackground": "#78dba918",
+      "editorLineNumber.activeForeground": "#f6926a"
+    },
+ 
+    "[GitHub Dark]": {}
+  },
+  "editor.tokenColorCustomizations": {
+    "[Dark Decay]": {
+      "textMateRules": [
+        {
+          "scope": [
+            "entity.name.tag",
+            "support.class.component"
+          ],
+          "settings": {
+            "foreground": "#f1cf8a"
+          }
+        }
+      ],
+    },
+    "[decay-custom]": {
+      "textMateRules": [
+        {
+          "name": "No italics",
+          "scope": [
+            "comment",
+            "keyword",
+            "storage",
+            "variable.language"
+          ],
+          "settings": {
+            "fontStyle": ""
+          }
+        }
+      ]
+    }
+  },
+  "workbench.productIconTheme": "IntelliJ",
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "editor.renderWhitespace": "all",
+  "console-ninja.darkTheme.log.decorationAttachmentRenderOptions": {
+    "border": null,
+    "borderColor": null,
+    "fontStyle": null,
+    "fontWeight": null,
+    "textDecoration": null,
+    "color": "rgba(86, 156, 214, 1)",
+    "backgroundColor": null,
+    "margin": "1em",
+    "width": null,
+    "height": null
+  },
+  "workbench.editorAssociations": {
+    "*.copilotmd": "vscode.markdown.preview.editor",
+    "*.svg": "default"
+  },
+  "window.titleBarStyle": "custom",
+  "diffEditor.codeLens": true,
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "errorLens.enabledDiagnosticLevels": [
+    "error",
+    "warning",
+    "info",
+  ],
+  "editor.lineNumbers": "on",
+  "editor.glyphMargin": true,
+  "apc.menubar.compact": false,
+  "apc.parts.font.family": {
+    "*": "JetBrainsMonoNL Nerd Font Propo"
+  },
+  "workbench.activityBar.location": "hidden",
+  "workbench.startupEditor": "none",
+  "update.showReleaseNotes": false,
+  "better-comments.highlightPlainText": true,
+  "better-comments.multilineComments": true,
+  "better-comments.tags": [
+    {
+      "tag": "!",
+      "color": "#FF2D00",
+      "strikethrough": false,
+      "backgroundColor": "transparent"
+    },
+    {
+      "tag": "?",
+      "color": "#3498DB",
+      "backgroundColor": "transparent"
+    },
+    {
+      "tag": "//",
+      "color": "#474747",
+      "backgroundColor": "transparent",
+      "italic": true
+    },
+    {
+      "tag": "todo",
+      "color": "#FF8C00",
+      "backgroundColor": "transparent"
+    },
+    {
+      "tag": "*",
+      "color": "#98C379",
+      "backgroundColor": "transparent"
+    }
+  ],
+  "geminicodeassist.displayInlineContextHint": false,
+  "svg.preview.mode": "svg",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "claudeCode.preferredLocation": "panel",
+  "accessibility.signals.voiceRecordingStarted": {
+    "sound": "off"
+  },
+  "accessibility.signals.lineHasBreakpoint": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.chatEditModifiedFile": {
+    "sound": "off"
+  },
+  "accessibility.signals.chatRequestSent": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.chatResponseReceived": {
+    "sound": "off"
+  },
+  "accessibility.signals.chatUserActionRequired": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.clear": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.codeActionApplied": {
+    "sound": "off"
+  },
+  "accessibility.signals.codeActionTriggered": {
+    "sound": "off"
+  },
+  "accessibility.signals.onDebugBreak": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.diffLineDeleted": {
+    "sound": "off"
+  },
+  "accessibility.signals.diffLineInserted": {
+    "sound": "off"
+  },
+  "accessibility.signals.diffLineModified": {
+    "sound": "off"
+  },
+  "accessibility.signals.editsKept": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.positionHasError": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.lineHasError": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.lineHasFoldedArea": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.lineHasInlineSuggestion": {
+    "sound": "off"
+  },
+  "accessibility.signals.nextEditSuggestion": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.noInlayHints": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.notebookCellCompleted": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.notebookCellFailed": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.progress": {
+    "sound": "off",
+    "announcement": "off"
+  },
+  "accessibility.signals.taskCompleted": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.taskFailed": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.terminalBell": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.terminalCommandFailed": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.terminalCommandSucceeded": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.terminalQuickFix": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.editsUndone": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.voiceRecordingStopped": {
+    "sound": "off"
+  },
+  "accessibility.signals.positionHasWarning": {
+    "sound": "off",
+    "announcement": "auto"
+  },
+  "accessibility.signals.lineHasWarning": {
+    "sound": "off",
+    "announcement": "auto"
+  }
+}
