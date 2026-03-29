@@ -1,7 +1,3 @@
-
-[includeIf "gitdir:~/Desktop/TREE/"]
-  path=./.gitconfig-personal
-
 [includeIf "gitdir:~/Desktop/Work/"]
   path=./.gitconfig-work
 
@@ -9,6 +5,7 @@
 	email = zafeer7460@gmail.com
   name = ZafeerMahmood
 [core]
+  sshCommand = "ssh -i ~/.ssh/personal"
 	pager = delta
 
 [interactive]
