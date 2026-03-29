@@ -21,3 +21,4 @@ nvim/lazy-lock.json
 # Neovim generated files
 nvim/nul
 nvim/spell/*.spl
+MIGRATION-WINDOWS.md

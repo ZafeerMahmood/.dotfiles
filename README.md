@@ -24,12 +24,13 @@ Personal dotfiles for Windows 11 and Linux Mint. Managed with git + symlinks.
 
 ## Quick start
 
-### Windows
+### Windows (existing machine)
 
-Requires **admin PowerShell** (symlinks need elevation or Developer Mode enabled).
+If this repo was created from your current machine and you want to make it the source of truth, see **[MIGRATION-WINDOWS.md](MIGRATION-WINDOWS.md)** for a safe tool-by-tool guide with rollback instructions for each step.
+
+Or if you're confident, run it all at once (requires Admin or Developer Mode):
 
 ```powershell
-git clone <your-repo-url> ~/.dotfiles
 cd ~/.dotfiles
 pwsh -ExecutionPolicy Bypass -File install-windows.ps1
 
@@ -37,16 +38,64 @@ pwsh -ExecutionPolicy Bypass -File install-windows.ps1
 pwsh -ExecutionPolicy Bypass -File install-windows.ps1 -DryRun
 ```
 
-### Linux (Mint / Ubuntu / Debian)
+### Windows (fresh machine)
+
+```powershell
+# 1. Install git
+winget install Git.Git
+
+# 2. Clone the repo
+git clone git@github.com:ZafeerMahmood/.dotfiles.git ~/.dotfiles
+
+# 3. Install tools (see "One-liner installs" section below)
+
+# 4. Enable Developer Mode: Settings > System > For developers > Developer Mode ON
+
+# 5. Run the install script from Admin PowerShell
+cd ~/.dotfiles
+pwsh -ExecutionPolicy Bypass -File install-windows.ps1
+
+# 6. Copy SSH keys from a secure source
+# cp /path/to/keys ~/.ssh/
+
+# 7. Open Neovim and let it install plugins
+# nvim
+```
+
+### Linux Mint / Ubuntu (fresh machine)
 
 ```bash
-git clone <your-repo-url> ~/.dotfiles
+# 1. Install git
+sudo apt update && sudo apt install -y git
+
+# 2. Clone the repo
+git clone git@github.com:ZafeerMahmood/.dotfiles.git ~/.dotfiles
+
+# 3. Install all tools (see "One-liner installs" section below)
+
+# 4. Run the install script
 cd ~/.dotfiles
 chmod +x install-linux.sh
-./install-linux.sh
+./install-linux.sh          # or --dry-run to preview first
 
-# Preview first:
-./install-linux.sh --dry-run
+# 5. Copy SSH keys from a secure source
+mkdir -p ~/.ssh
+# cp /path/to/keys ~/.ssh/
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/personal ~/.ssh/work
+chmod 644 ~/.ssh/*.pub
+
+# 6. Fix Debian/Ubuntu binary name quirks
+mkdir -p ~/.local/bin
+ln -sf $(which fdfind) ~/.local/bin/fd
+ln -sf $(which batcat) ~/.local/bin/bat
+
+# 7. Open Neovim and let it install plugins (takes a minute)
+nvim
+# Then run :checkhealth to verify everything works
+
+# 8. Source bash profile
+source ~/.bash_profile
 ```
 
 ## Tool dependencies
@@ -176,11 +225,13 @@ Just open `nvim` and wait for it to finish. Run `:checkhealth` to verify everyth
 
 ### Git config
 
-The `.gitconfig` uses conditional includes based on directory:
-- Repos under `~/Desktop/TREE/` use `.gitconfig-personal`
-- Repos under `~/Desktop/Work/` use `.gitconfig-work`
+Personal identity is the global default (name, email, SSH key). Work overrides only apply inside `~/Desktop/Work/` via conditional include. On Linux, update the `includeIf` path in `.gitconfig` if your work repos live in a different directory.
 
-On Linux, update these paths in `.gitconfig` to match your directory structure.
+### WezTerm (Linux)
+
+The WezTerm config sets `config.default_prog = { "pwsh" }` which is Windows-specific. On Linux, comment out or remove that line in `.wezterm.lua` — WezTerm will use your default shell automatically.
+
+Also, `config.win32_system_backdrop = "Mica"` is a Windows-only feature. It's ignored on Linux, but you can remove it for a clean config.
 
 ### oh-my-posh theme
 
@@ -228,6 +279,7 @@ chmod 644 ~/.ssh/*.pub
 ├── github-cli/              # gh CLI config [Both]
 ├── oh-my-posh/              # oh-my-posh theme [Both]
 ├── fonts/                   # JetBrains Mono Nerd Font [Both]
+├── MIGRATION-WINDOWS.md     # Safe per-tool migration guide
 ├── install-windows.ps1      # Windows symlink installer
 ├── install-linux.sh         # Linux symlink installer
 ├── .gitattributes           # Line ending rules
