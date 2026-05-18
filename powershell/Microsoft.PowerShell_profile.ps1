@@ -13,8 +13,8 @@ function Enable-Icons { Import-Module -Name Terminal-Icons }
 Import-Module -Name CompletionPredictor
 Invoke-Expression (& { zoxide init powershell | Out-String })
 
-# oh-my-posh init pwsh --config "$HOME\.dotfiles\oh-my-posh\bubblesextra.omp.json" | Invoke-Expression
-oh-my-posh init pwsh --config "$HOME\.dotfiles\oh-my-posh\robbyrussell.omp.json" | Invoke-Expression
+# oh-my-posh init pwsh --config 'C:\Users\Zafeer Mahmood\AppData\Local\Programs\oh-my-posh\themes\bubblesextra.omp.json' | Invoke-Expression
+oh-my-posh init pwsh --config 'C:\Users\Zafeer Mahmood\AppData\Local\Programs\oh-my-posh\themes\robbyrussell.omp.json' | Invoke-Expression
 
 
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {

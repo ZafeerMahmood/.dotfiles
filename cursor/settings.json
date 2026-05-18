@@ -300,4 +300,5 @@
         "sound": "off",
         "announcement": "auto"
     },
+    "workbench.statusBar.visible": false,
 }

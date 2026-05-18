@@ -1,4 +1,4 @@
-eval "$(oh-my-posh init bash --config ~/.dotfiles/oh-my-posh/robbyrussell.omp.json)"
+eval "$(oh-my-posh init bash --config ~/appdata/local/programs/oh-my-posh/themes/robbyrussell.omp.json)"
 eval "$(zoxide init bash)"
 eval "$(fzf --bash)"
 
