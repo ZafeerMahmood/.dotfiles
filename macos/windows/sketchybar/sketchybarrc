@@ -1,0 +1,99 @@
+#!/bin/bash
+# SketchyBar config, ported from the Zebar "starter/with-glazewm" widget:
+# 40px top bar on all monitors, dark gradient, monospace 12px, nerd font icons.
+# Layout: [logo][workspaces] ... [date] ... [mode][tiling][network][memory][cpu][battery][weather]
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+FONT="JetBrainsMono Nerd Font"
+
+TEXT_COLOR=0xe6ffffff
+ICON_COLOR=0xf27382af
+BUTTON_COLOR=0x26ffffff
+
+sketchybar --bar position=top height=40 color=0xe6030110 border_width=0 \
+  shadow=off sticky=on topmost=off padding_left=22 padding_right=22
+
+sketchybar --default \
+  icon.font="$FONT:Regular:12.0" \
+  label.font="$FONT:Regular:12.0" \
+  icon.color=$ICON_COLOR \
+  label.color=$TEXT_COLOR \
+  icon.padding_right=7 \
+  padding_right=20
+
+# Left: logo + workspaces
+sketchybar --add item logo left \
+  --set logo icon= label.drawing=off
+
+sketchybar --add event aerospace_workspace_change
+
+for workspace_id in 1 2 3 4 5 6 7 8 9; do
+  sketchybar --add item "space.$workspace_id" left \
+    --set "space.$workspace_id" \
+      icon.drawing=off \
+      label="$workspace_id" \
+      label.padding_left=8 \
+      label.padding_right=8 \
+      padding_right=4 \
+      background.color=0x0dffffff \
+      background.corner_radius=2 \
+      background.height=22 \
+      background.drawing=on \
+      click_script="aerospace workspace $workspace_id"
+done
+
+# NOTE: hidden item that repaints all workspace buttons in one sketchybar call
+sketchybar --add item workspaces_controller left \
+  --set workspaces_controller drawing=off updates=on script="$PLUGIN_DIR/workspaces.sh" \
+  --subscribe workspaces_controller aerospace_workspace_change space_windows_change front_app_switched system_woke
+
+# Center: date (Zebar format 'EEE d MMM t')
+# NOTE: 'e' = just right of the notch; plain 'center' hides under the MacBook notch
+sketchybar --add item date e \
+  --set date icon.drawing=off padding_right=0 update_freq=10 script="$PLUGIN_DIR/date.sh"
+
+# Right: added right to left
+sketchybar --add item weather right \
+  --set weather padding_right=0 update_freq=900 script="$PLUGIN_DIR/weather.sh" \
+  --subscribe weather system_woke
+
+sketchybar --add item battery right \
+  --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+  --subscribe battery power_source_change system_woke
+
+sketchybar --add item cpu right \
+  --set cpu icon= update_freq=2 script="$PLUGIN_DIR/cpu.sh"
+
+sketchybar --add item memory right \
+  --set memory icon= update_freq=5 script="$PLUGIN_DIR/memory.sh"
+
+sketchybar --add item network right \
+  --set network update_freq=30 script="$PLUGIN_DIR/network.sh" \
+  --subscribe network wifi_change system_woke
+
+sketchybar --add item tiling_direction right \
+  --set tiling_direction \
+    icon=󰓡 \
+    icon.color=$TEXT_COLOR \
+    icon.padding_left=8 \
+    icon.padding_right=8 \
+    label.drawing=off \
+    background.color=$BUTTON_COLOR \
+    background.corner_radius=2 \
+    background.height=22 \
+    click_script="aerospace layout tiles horizontal vertical"
+
+# Shown only while in resize mode (toggled from aerospace.toml)
+sketchybar --add item binding_mode right \
+  --set binding_mode \
+    drawing=off \
+    icon.drawing=off \
+    label.padding_left=8 \
+    label.padding_right=8 \
+    padding_right=4 \
+    background.color=$BUTTON_COLOR \
+    background.corner_radius=2 \
+    background.height=22 \
+    click_script="aerospace mode main; sketchybar --set binding_mode drawing=off"
+
+sketchybar --update

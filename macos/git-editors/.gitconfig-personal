@@ -1,0 +1,10 @@
+[user]
+  name = ZafeerMahmood
+  email = zafeer7460@gmail.com
+
+[core]
+  sshCommand = ssh -i ~/.ssh/personal -o IdentitiesOnly=yes
+
+# NOTE: picks the right gh account token for https remotes
+[credential "https://github.com"]
+  username = ZafeerMahmood

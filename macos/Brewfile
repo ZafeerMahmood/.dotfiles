@@ -1,0 +1,99 @@
+# Master Brewfile for the Mac. Union of every macos/<area> list, deduped.
+# Run: brew bundle --file="$HOME/.dotfiles/macos/Brewfile"   (bootstrap.sh does this)
+
+tap "jandedobbeleer/oh-my-posh"
+tap "stripe/stripe-cli"
+tap "FelixKratz/formulae"
+tap "nikitabobko/tap"
+
+# --- git / gh (git-editors)
+brew "git"
+brew "gh"
+brew "git-delta"
+brew "git-lfs"
+brew "lazygit"
+
+# --- shell + terminal (shell)
+brew "jandedobbeleer/oh-my-posh/oh-my-posh"
+brew "zoxide"
+brew "fzf"
+brew "ripgrep"
+brew "fd"
+brew "bat"
+brew "eza"
+brew "jq"
+brew "wget"
+brew "tlrc"
+brew "gnu-sed"
+brew "cloc"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+cask "wezterm"
+cask "powershell"
+
+# --- fonts (JetBrainsMonoNL Nerd Font Propo is inside this cask)
+cask "font-jetbrains-mono-nerd-font"
+
+# --- neovim (nvim)
+brew "neovim"
+brew "tree-sitter-cli"
+brew "cmake"
+brew "zig"
+brew "luarocks"
+cask "neovide-app"
+# cask "dotnet-sdk"   # only for omnisharp (C#), ~200MB
+
+# --- window manager + bar (windows)
+brew "FelixKratz/formulae/sketchybar"
+brew "FelixKratz/formulae/borders"
+cask "nikitabobko/tap/aerospace"
+
+# --- runtimes (tools, projects)
+brew "node@24"
+brew "uv"
+brew "python@3.11"
+brew "go"
+brew "ruby"
+cask "zulu@17"
+
+# --- language servers for Claude Code plugins (claude)
+brew "gopls"
+brew "lua-language-server"
+brew "pyright"
+
+# --- databases, run as brew services (tools/databases.md)
+brew "postgresql@16"
+brew "redis"
+
+# --- project system libs + CLIs (projects)
+brew "poppler"
+brew "mupdf-tools"
+brew "aws-sam-cli"
+brew "stripe/stripe-cli/stripe"
+
+# --- mobile, React Native 0.75 (projects)
+brew "watchman"
+brew "cocoapods"
+cask "android-studio"
+
+# --- GUI dev apps
+cask "visual-studio-code"
+cask "cursor"
+cask "postman"
+cask "github"
+
+# --- everyday apps found on the PC
+cask "claude"
+cask "chatgpt"
+cask "obsidian"
+cask "notion"
+cask "slack"
+cask "discord"
+cask "spotify"
+cask "google-chrome"
+cask "firefox"
+cask "whatsapp"
+cask "cloudflare-warp"
+cask "libreoffice"
+cask "grammarly-desktop"
+cask "the-unarchiver"

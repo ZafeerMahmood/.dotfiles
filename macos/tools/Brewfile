@@ -1,0 +1,76 @@
+# Run: brew bundle --file="$HOME/.dotfiles/macos/tools/Brewfile"
+# Mirrors the Windows PC tool set (choco + winget + WSL). Comment out what you don't want.
+
+tap "jandedobbeleer/oh-my-posh"
+tap "stripe/stripe-cli"
+
+# Shell / CLI
+brew "git"
+brew "gh"
+brew "git-delta"
+brew "lazygit"
+brew "zoxide"
+brew "fzf"
+brew "ripgrep"
+brew "fd"
+brew "bat"
+brew "eza"
+brew "jq"
+brew "wget"
+brew "tlrc"
+brew "gnu-sed"
+brew "cloc"
+brew "jandedobbeleer/oh-my-posh/oh-my-posh"
+
+# Neovim and build deps
+brew "neovim"
+brew "cmake"
+brew "zig"
+brew "luarocks"
+
+# Runtimes
+brew "node@24"
+brew "uv"
+brew "go"
+brew "ruby"
+
+# Databases (run as brew services, see databases.md)
+brew "postgresql@16"
+brew "redis"
+
+# Project system libs
+brew "poppler"
+brew "mupdf-tools"
+
+# Mobile (React Native 0.75 bare app)
+brew "watchman"
+brew "cocoapods"
+
+# Misc CLIs
+brew "stripe/stripe-cli/stripe"
+
+# GUI dev apps
+cask "visual-studio-code"
+cask "cursor"
+cask "neovide-app"
+cask "postman"
+cask "android-studio"
+cask "zulu@17"
+cask "github"
+cask "font-jetbrains-mono-nerd-font"
+
+# GUI everyday apps found on the PC
+cask "claude"
+cask "chatgpt"
+cask "obsidian"
+cask "notion"
+cask "slack"
+cask "discord"
+cask "spotify"
+cask "google-chrome"
+cask "firefox"
+cask "whatsapp"
+cask "cloudflare-warp"
+cask "libreoffice"
+cask "grammarly-desktop"
+cask "the-unarchiver"

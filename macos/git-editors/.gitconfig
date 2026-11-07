@@ -1,0 +1,59 @@
+# Mac version of ~/.gitconfig. install.sh symlinks this to ~/.gitconfig.
+# Repos under ~/Desktop/TREE use the personal identity, ~/Desktop/Work the work identity.
+
+[includeIf "gitdir:~/Desktop/TREE/"]
+  path = ~/.dotfiles/macos/git-editors/.gitconfig-personal
+
+[includeIf "gitdir:~/Desktop/Work/"]
+  path = ~/.dotfiles/macos/git-editors/.gitconfig-work
+
+[user]
+  name = ZafeerMahmood
+  email = zafeer7460@gmail.com
+
+[core]
+  pager = delta
+  autocrlf = input
+  excludesFile = ~/.config/git/ignore
+
+[init]
+  defaultBranch = master
+
+[pull]
+  rebase = false
+
+[credential]
+  helper = osxkeychain
+
+# NOTE: gh handles github.com https auth, the empty helper clears osxkeychain for this host
+[credential "https://github.com"]
+  helper =
+  helper = !/opt/homebrew/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+  helper =
+  helper = !/opt/homebrew/bin/gh auth git-credential
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  side-by-side = true
+  line-numbers = true
+  syntax-theme = GitHub
+  plus-style = "syntax #d4f8d4"
+  minus-style = "syntax #f8d4d4"
+  hunk-header-style = file line-number syntax
+
+[merge]
+  conflictstyle = diff3
+
+[diff]
+  colorMoved = default

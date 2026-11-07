@@ -1,0 +1,10 @@
+[user]
+  name = ZafeerTaxGPT
+  email = zafeer@taxgpt.com
+
+[core]
+  sshCommand = ssh -i ~/.ssh/work -o IdentitiesOnly=yes
+
+# NOTE: picks the right gh account token for https remotes
+[credential "https://github.com"]
+  username = ZafeerTaxGPT
