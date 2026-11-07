@@ -1,12 +1,17 @@
-[includeIf "gitdir:~/Desktop/Work/"]
+
+[includeIf "gitdir:C:/Users/Zafeer Mahmood/Desktop/TREE/"]
+  path=./.gitconfig-personal
+
+[includeIf "gitdir:C:/Users/Zafeer Mahmood/Desktop/Work/"]
   path=./.gitconfig-work
 
 [user]
 	email = zafeer7460@gmail.com
   name = ZafeerMahmood
 [core]
-  sshCommand = "ssh -i ~/.ssh/personal"
+  sshCommad=C:/Windows/System32/OpenSSH/ssh.exe
 	pager = delta
+	longpaths = true
 
 [interactive]
 	diffFilter = delta --color-only

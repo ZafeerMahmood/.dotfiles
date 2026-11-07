@@ -58,7 +58,7 @@ return {
       { '<leader>t', group = '[T]oggle', icon = { icon = ' ', color = 'azure' } },
       { '<leader>e', icon = { icon = '󰙅 ', color = 'green' } },
       { '<leader>f', icon = { icon = '󰉢 ', color = 'blue' } },
-      { '<leader>q', icon = { icon = ' ', color = 'red' } },
+      { '<leader>q', group = '[Q]uickfix/Session', icon = { icon = ' ', color = 'red' } },
       { '<leader>r', icon = { icon = '󰛔 ', color = 'orange' } },
       { '<leader>x', icon = { icon = '󰅖 ', color = 'red' } },
       { '<leader>X', icon = { icon = '󰅗 ', color = 'red' } },

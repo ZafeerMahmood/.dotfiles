@@ -43,7 +43,7 @@ map('n', ']]', ']]zz', { desc = 'Next section and center' })
 map('n', '%', '%zz', { desc = 'Match bracket and center' })
 
 -- Diagnostics
-map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+map('n', '<leader>qq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 map('n', ']d', function() vim.diagnostic.jump({ count = 1 }) vim.cmd('normal! zz') end, { desc = 'Next diagnostic' })
 map('n', '[d', function() vim.diagnostic.jump({ count = -1 }) vim.cmd('normal! zz') end, { desc = 'Prev diagnostic' })
 map('n', ']e', function() vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR }) vim.cmd('normal! zz') end, { desc = 'Next error' })
@@ -81,3 +81,4 @@ map('n', '<leader>r', function()
   end
 end, { desc = '[R]eplace word in buffer' })
 map('v', '<leader>r', 'y:%s/<C-r>"/', { desc = '[R]eplace selection in buffer' })
+

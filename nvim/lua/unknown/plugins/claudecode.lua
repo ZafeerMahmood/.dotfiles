@@ -17,7 +17,7 @@ return {
       split_side = 'right',
       split_width_percentage = 0.40,
       snacks_win_opts = {
-        env = { SHELL = 'cmd' }, --WARN: try with "pwsh" or "pwsh -NoProfile"
+        env = vim.fn.has('win32') == 1 and { SHELL = 'cmd' } or nil,
       },
     },
   },

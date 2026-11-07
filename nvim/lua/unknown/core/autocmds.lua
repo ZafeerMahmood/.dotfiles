@@ -50,3 +50,27 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
   callback = function() vim.hl.on_yank() end,
 })
+
+-- Deferred spell check — only enable for real buffers, not dashboard
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufNewFile' }, {
+  group = vim.api.nvim_create_augroup('deferred-spell', { clear = true }),
+  callback = function()
+    vim.opt_local.spell = true
+  end,
+})
+
+-- Markdown buffer UX — nowrap preserves wide-table grids, sidescroll keeps motion smooth
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('markdown-ux', { clear = true }),
+  pattern = { 'markdown', 'gitcommit' },
+  callback = function()
+    vim.opt_local.wrap = false
+    vim.opt_local.sidescroll = 1
+    vim.opt_local.sidescrolloff = 8
+    vim.opt_local.conceallevel = 2
+    vim.keymap.set('n', '<leader>tw', function()
+      vim.wo.wrap = not vim.wo.wrap
+      vim.notify('wrap = ' .. tostring(vim.wo.wrap))
+    end, { buffer = true, desc = '[T]oggle [W]rap' })
+  end,
+})

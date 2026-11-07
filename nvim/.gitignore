@@ -1,0 +1,9 @@
+tags
+test.sh
+.luarc.json
+nvim
+
+spell/
+.claude/*
+guide.md
+todo.md

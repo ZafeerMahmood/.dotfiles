@@ -42,6 +42,7 @@ return {
         header = homer,
         keys = {
           { icon = ' ', key = 'r', desc = 'Recent Files', action = ':Telescope oldfiles' },
+          { icon = ' ', key = 's', desc = 'Restore Session', action = function() require('persistence').load() end },
           { icon = ' ', key = 'c', desc = 'Config', action = ':e $MYVIMRC' },
           { icon = '󰒲 ', key = 'l', desc = 'Lazy', action = ':Lazy' },
           { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },

@@ -319,6 +319,22 @@ return {
       -- Install: pip install python-lsp-server pylsp-rope
       -- NOTE: Ruff linting is handled by standalone ruff LSP (faster, better code actions)
       pylsp = {
+        -- Inject the selected venv python into jedi.environment at (re)start so
+        -- Jedi resolves site-packages (Django, DRF, etc.). Covers pylsp restarts
+        -- that happen independently of venv-selector's live-update hook.
+        on_new_config = function(new_config)
+          local ok, vs = pcall(require, 'venv-selector')
+          local venv_py = ok and vs.python and vs.python() or nil
+          if (venv_py == nil or venv_py == '') and vim.env.VIRTUAL_ENV ~= nil then
+            local suffix = vim.fn.has('win32') == 1 and '\\Scripts\\python.exe' or '/bin/python'
+            venv_py = vim.env.VIRTUAL_ENV .. suffix
+          end
+          if venv_py and venv_py ~= '' then
+            new_config.settings = vim.tbl_deep_extend('force', new_config.settings or {}, {
+              pylsp = { plugins = { jedi = { environment = venv_py } } },
+            })
+          end
+        end,
         settings = {
           pylsp = {
             plugins = {
@@ -432,7 +448,10 @@ return {
       -- 'prettierd', -- Frontend formatter (faster than prettier)
       -- 'eslint_d', -- Fast ESLint daemon for JS/TS linting
     })
-    require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+    require('mason-tool-installer').setup {
+      ensure_installed = ensure_installed,
+      run_on_start = false,
+    }
 
     require('mason-lspconfig').setup {
       ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
