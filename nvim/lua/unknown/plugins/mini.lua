@@ -39,13 +39,6 @@ return {
       },
     }
 
-    -- NOTE: mini.statusline disabled - using lualine instead (see lua/custom/plugins/lualine.lua)
-    -- local statusline = require 'mini.statusline'
-    -- statusline.setup { use_icons = vim.g.have_nerd_font }
-    -- statusline.section_location = function()
-    --   return '%2l:%-2v'
-    -- end
-
     -- ... and there is more!
     --  Check out: https://github.com/echasnovski/mini.nvim
   end,

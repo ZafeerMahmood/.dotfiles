@@ -61,12 +61,12 @@ return {
     { '<leader>sr', function() require('telescope.builtin').resume() end, desc = '[S]earch [R]esume' },
     { '<leader>s.', function() require('telescope.builtin').oldfiles() end, desc = '[S]earch Recent Files ("." for repeat)' },
     { '<leader><leader>', function() require('telescope.builtin').buffers() end, desc = '[ ] Find existing buffers' },
-    { '<C-f>', function()
+    { '<leader>sb', function()
       require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
         winblend = 10,
         previewer = false,
       })
-    end, desc = '[F]uzzily search in current buffer' },
+    end, desc = '[S]earch in current [B]uffer' },
     { '<leader>s/', function()
       require('telescope.builtin').live_grep {
         grep_open_files = true,
@@ -79,6 +79,42 @@ return {
         find_command = { 'fd', '--type', 'f', '--hidden', '--exclude', '.git', '--path-separator', '/' },
       }
     end, desc = '[S]earch nvim [C]onfig' },
+    { '<leader>gs', function()
+      -- NOTE: git_status' entry.path is absolute; on Windows git's forward-slash
+      -- root (C:/...) trips telescope's is_uri(), so transform_path skips
+      -- path_display and shows the raw absolute path. We override only the display
+      -- to run the relative entry.value through make_display (is_uri ignores
+      -- relative paths); entry.path is left alone so open/preview are unchanged.
+
+      local make_entry = require 'telescope.make_entry'
+      local utils = require 'telescope.utils'
+
+      -- NOTE: seed opts.cwd ourselves -- the builtin merges opts into a copy, so a
+      -- pre-built gen_from_git_status would see cwd=nil and build dir-only paths.
+      local opts = {}
+      local root = utils.get_os_command_output({ 'git', 'rev-parse', '--show-toplevel' })[1]
+
+      if root and root ~= '' then
+        opts.cwd = root
+      end
+
+      local base = make_entry.gen_from_git_status(opts)
+      opts.entry_maker = function(line)
+        local entry = base(line)
+        if not entry then
+          return
+        end
+
+        local make_display = entry.display
+        entry.display = function(e)
+          return make_display(setmetatable({ path = e.value }, { __index = e }))
+        end
+
+        return entry
+      end
+      require('telescope.builtin').git_status(opts)
+    end, desc = '[G]it [S]tatus (changed files)' },
+    { '<leader>gD', function() require('telescope.builtin').git_bcommits() end, desc = '[G]it file history [D]iff (current buffer)' },
   },
   config = function()
     local actions = require 'telescope.actions'

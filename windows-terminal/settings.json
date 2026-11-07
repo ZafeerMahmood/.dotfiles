@@ -4,15 +4,15 @@
     "actions": 
     [
         {
+            "command": "paste",
+            "id": "User.paste"
+        },
+        {
             "command": 
             {
                 "action": "newTab"
             },
             "id": "User.newTab.5DEADB41"
-        },
-        {
-            "command": "paste",
-            "id": "User.paste"
         },
         {
             "command": "toggleFocusMode",
@@ -47,16 +47,16 @@
             "id": "User.toggleAlwaysOnTop"
         },
         {
+            "command": "closePane",
+            "id": "User.closePane"
+        },
+        {
             "command": 
             {
                 "action": "sendInput",
                 "input": "\u001b[13;2u"
             },
             "id": "User.sendInput.shiftEnter"
-        },
-        {
-            "command": "closePane",
-            "id": "User.closePane"
         },
         {
             "command": 
@@ -89,20 +89,20 @@
     "keybindings": 
     [
         {
-            "id": "User.copy.644BA8F2",
-            "keys": "ctrl+c"
-        },
-        {
             "id": "User.newTab.5DEADB41",
             "keys": "ctrl+t"
         },
         {
-            "id": "User.commandPalette.D3F0B923",
-            "keys": "ctrl+shift+p"
+            "id": "User.copy.644BA8F2",
+            "keys": "ctrl+c"
         },
         {
             "id": "User.splitPane.A6751878",
             "keys": "alt+shift+d"
+        },
+        {
+            "id": "User.commandPalette.D3F0B923",
+            "keys": "ctrl+shift+p"
         },
         {
             "id": null,
@@ -113,12 +113,12 @@
             "keys": "ctrl+z"
         },
         {
-            "id": "User.find",
-            "keys": "ctrl+shift+f"
-        },
-        {
             "id": "User.paste",
             "keys": "ctrl+v"
+        },
+        {
+            "id": "User.find",
+            "keys": "ctrl+shift+f"
         },
         {
             "id": null,
@@ -209,7 +209,7 @@
             },
             "historySize": 20000,
             "intenseTextStyle": "bold",
-            "opacity": 80,
+            "opacity": 85,
             "padding": "10",
             "scrollbarState": "visible",
             "startingDirectory": "%USERPROFILE%",
@@ -428,6 +428,7 @@
         }
     ],
     "searchWebDefaultQueryUrl": "https://www.google.com/search?q=%22%s%22",
+    "showTabsFullscreen": false,
     "themes": 
     [
         {
@@ -453,5 +454,6 @@
                 "useMica": false
             }
         }
-    ]
+    ],
+    "useAcrylicInTabRow": true
 }

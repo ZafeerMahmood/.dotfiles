@@ -90,6 +90,7 @@ return {
     'catppuccin/nvim',
     name = 'catppuccin',
     lazy = false,
+    priority = 1000,
     opts = {
       flavour = 'mocha',
       styles = {
@@ -116,6 +117,12 @@ return {
         native_lsp = { enabled = true },
       },
     },
+  },
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    lazy = false,
+    priority = 1000,
   },
   {
     'ZafeerMahmood/unknown-decay.nvim',
@@ -145,68 +152,6 @@ return {
         vim.cmd.colorscheme 'catppuccin'
       end
     end,
-  },
-
-  
-
-  {
-    'rose-pine/neovim',
-    name = 'rose-pine',
-    lazy = false,
-    opts = {
-      variant = 'auto',
-      styles = {
-        italic = false,
-      },
-    },
-  },
-
-  {
-    'folke/tokyonight.nvim',
-    lazy = false,
-    opts = {
-      styles = {
-        comments = { italic = false },
-      },
-    },
-  },
-
-  {
-    'ellisonleao/gruvbox.nvim',
-    name = 'gruvbox',
-    lazy = false,
-    opts = {
-      contrast = 'hard',
-      italic = {
-        strings = false,
-        comments = true,
-        operators = false,
-      },
-    },
-  },
-
-  {
-    'sainnhe/gruvbox-material',
-    name = 'gruvbox-material',
-    lazy = false,
-    config = function()
-      vim.g.gruvbox_material_background = 'hard'
-      vim.g.gruvbox_material_enable_italic = 1
-    end,
-  },
-
-  {
-    'EdenEast/nightfox.nvim',
-    name = 'nightfox',
-    lazy = false,
-    opts = {
-      options = {
-        styles = {
-          comments = 'italic',
-          keywords = 'bold',
-        },
-      },
-    },
   },
 
   -- Colorscheme picker keymap

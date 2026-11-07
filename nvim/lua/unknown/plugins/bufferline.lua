@@ -40,7 +40,7 @@ return {
     end, { desc = 'Close buffer' })
 
     vim.keymap.set('n', '<leader>X', function()
-      local exclude_ft = { 'neo-tree', 'terminal', 'lazygit', 'fugitive', 'gitcommit', 'diff', 'claudecode' }
+      local exclude_ft = { 'neo-tree', 'terminal', 'lazygit', 'gitcommit', 'diff', 'claudecode' }
       local exclude_bt = { 'terminal', 'nofile', 'prompt', 'quickfix' }
       local bufs_to_close = {}
       for _, buf in ipairs(vim.api.nvim_list_bufs()) do

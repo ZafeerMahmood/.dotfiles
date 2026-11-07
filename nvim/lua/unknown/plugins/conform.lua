@@ -20,7 +20,9 @@ return {
     {
       '<leader>f',
       function()
-        require('conform').format { async = true, lsp_format = 'fallback' }
+        -- lsp_format='never': pylsp advertises documentFormatting but its formatters are off,
+        -- so 'fallback' could silently route to that dead provider. ruff_format only.
+        require('conform').format { async = true, lsp_format = 'never' }
       end,
       mode = '',
       desc = '[F]ormat buffer',

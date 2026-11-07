@@ -1,3 +1,6 @@
+-- Native Lua bytecode cache (must run before any require)
+vim.loader.enable()
+
 -- Leader key (must be set before plugins)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -60,6 +63,8 @@ require('lazy').setup({
       },
     },
   },
+  -- Auto-reload config on save without the "Config Change Detected" toast
+  change_detection = { enabled = true, notify = false },
 })
 
 -- vim: ts=2 sts=2 sw=2 et

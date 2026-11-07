@@ -12,6 +12,7 @@
   sshCommad=C:/Windows/System32/OpenSSH/ssh.exe
 	pager = delta
 	longpaths = true
+	autocrlf = input
 
 [interactive]
 	diffFilter = delta --color-only

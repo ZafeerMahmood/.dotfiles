@@ -1,5 +1,6 @@
 tags
 test.sh
+tmp/
 .luarc.json
 nvim
 
@@ -7,3 +8,5 @@ spell/
 .claude/*
 guide.md
 todo.md
+
+.docs

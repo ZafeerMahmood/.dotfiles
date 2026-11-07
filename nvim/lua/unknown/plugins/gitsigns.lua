@@ -21,9 +21,12 @@ return {
       changedelete = { text = '~' },
     },
     current_line_blame = true,
+    current_line_blame_opts = { delay = 1500 },
     on_attach = function(bufnr)
-      -- Skip special buffers (diffview, terminals, etc.)
+      -- Skip special buffers (terminals, help, etc.)
       if vim.bo[bufnr].buftype ~= '' then return end
+      -- Skip huge/minified files flagged by snacks.bigfile (avoids full-buffer blame/diff)
+      if vim.bo[bufnr].filetype == 'bigfile' then return false end
       local gitsigns = require 'gitsigns'
       local function map(mode, l, r, opts)
         opts = opts or {}
@@ -65,7 +68,7 @@ return {
       map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
       map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
       map('n', '<leader>gb', function() gitsigns.blame() end, { desc = '[G]it [B]lame' })
-      map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
+      map('n', '<leader>gd', gitsigns.diffthis, { desc = '[G]it [d]iff (this file vs index)' })
       map('n', '<leader>hD', function()
         gitsigns.diffthis '@'
       end, { desc = 'git [D]iff against last commit' })

@@ -54,6 +54,6 @@ return {
       },
       lualine_z = { { 'filetype', separator = { right = '' }, left_padding = 2 } },
     },
-    extensions = { 'lazy', 'quickfix', 'fugitive' },
+    extensions = { 'lazy', 'quickfix' },
   },
 }

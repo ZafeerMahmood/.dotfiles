@@ -20,43 +20,11 @@ return {
     'saghen/blink.cmp',
   },
   config = function()
-    -- Brief aside: **What is LSP?**
-    --
-    -- LSP is an initialism you've probably heard, but might not understand what it is.
-    --
-    -- LSP stands for Language Server Protocol. It's a protocol that helps editors
-    -- and language tooling communicate in a standardized fashion.
-    --
-    -- In general, you have a "server" which is some tool built to understand a particular
-    -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc.). These Language Servers
-    -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
-    -- processes that communicate with some "client" - in this case, Neovim!
-    --
-    -- LSP provides Neovim with features like:
-    --  - Go to definition
-    --  - Find references
-    --  - Autocompletion
-    --  - Symbol Search
-    --  - and more!
-    --
-    -- Thus, Language Servers are external tools that must be installed separately from
-    -- Neovim. This is where `mason` and related plugins come into play.
-    --
-    -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
-    -- and elegantly composed help section, `:help lsp-vs-treesitter`
-
-    --  This function gets run when an LSP attaches to a particular buffer.
-    --    That is to say, every time a new file is opened that is associated with
-    --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
-    --    function will be executed to configure the current buffer
+    -- Per-buffer LSP keymaps, set when a server attaches to a buffer.
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
       callback = function(event)
-        -- NOTE: Remember that Lua is a real programming language, and as such it is possible
-        -- to define small helper and utility functions so you don't have to repeat yourself.
-        --
-        -- In this case, we create a function that lets us more easily define mappings specific
-        -- for LSP related items. It sets the mode, buffer and description for us each time.
+        -- Helper: define a buffer-local LSP mapping with a description.
         local map = function(keys, func, desc, mode)
           mode = mode or 'n'
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
@@ -106,26 +74,13 @@ return {
         --  the definition of its *type*, not where it was *defined*.
         map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
-        -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
-        ---@param client vim.lsp.Client
-        ---@param method vim.lsp.protocol.Method
-        ---@param bufnr? integer some lsp support methods only in specific files
-        ---@return boolean
-        local function client_supports_method(client, method, bufnr)
-          if vim.fn.has 'nvim-0.11' == 1 then
-            return client:supports_method(method, bufnr)
-          else
-            return client.supports_method(method, { bufnr = bufnr })
-          end
-        end
-
         -- The following two autocommands are used to highlight references of the
         -- word under your cursor when your cursor rests there for a little while.
         --    See `:help CursorHold` for information about when this is executed
         --
         -- When you move your cursor, the highlights will be cleared (the second autocommand).
         local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
           local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
           vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
             buffer = event.buf,
@@ -148,46 +103,11 @@ return {
           })
         end
 
-        -- Auto-show hover documentation on CursorHold (after 1 second)
-        -- Toggle with <leader>ta (toggle auto-hover)
-        -- DISABLED: Auto-hover commented out for now
-        -- if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_hover, event.buf) then
-        --   vim.b[event.buf].auto_hover_enabled = true -- enabled by default
-        --
-        --   local hover_augroup = vim.api.nvim_create_augroup('kickstart-lsp-hover', { clear = false })
-        --   vim.api.nvim_create_autocmd('CursorHold', {
-        --     buffer = event.buf,
-        --     group = hover_augroup,
-        --     callback = function()
-        --       -- Only show if auto-hover is enabled and no floating window is open
-        --       if vim.b.auto_hover_enabled and not vim.b.hover_open then
-        --         vim.b.hover_open = true
-        --         vim.lsp.buf.hover()
-        --       end
-        --     end,
-        --   })
-        --
-        --   -- Clear hover state when cursor moves
-        --   vim.api.nvim_create_autocmd('CursorMoved', {
-        --     buffer = event.buf,
-        --     group = hover_augroup,
-        --     callback = function()
-        --       vim.b.hover_open = false
-        --     end,
-        --   })
-        --
-        --   -- Toggle auto-hover with <leader>ta
-        --   map('<leader>ta', function()
-        --     vim.b.auto_hover_enabled = not vim.b.auto_hover_enabled
-        --     print('Auto-hover: ' .. (vim.b.auto_hover_enabled and 'ON' or 'OFF'))
-        --   end, '[T]oggle [A]uto-hover')
-        -- end
-
         -- The following code creates a keymap to toggle inlay hints in your
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
-        if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
           map('<leader>th', function()
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end, '[T]oggle Inlay [H]ints')
@@ -195,41 +115,12 @@ return {
       end,
     })
 
-    -- Configure LSP hover handler with syntax highlighting and themed borders
-    vim.lsp.handlers['textDocument/hover'] = function(err, result, ctx, config)
-      config = config or {}
-      config.border = 'rounded'
-      config.focus = false
-
-      -- Call the default handler to create the floating window
-      local bufnr, winnr = vim.lsp.handlers.hover(err, result, ctx, config)
-
-      -- If a window was created, enable treesitter syntax highlighting
-      if bufnr and winnr and vim.api.nvim_win_is_valid(winnr) then
-        -- Enable treesitter highlighting for markdown in the hover buffer
-        vim.treesitter.start(bufnr, 'markdown')
-
-        -- Apply colorscheme to floating window
-        vim.api.nvim_set_option_value('winhl', 'Normal:NormalFloat,FloatBorder:FloatBorder', { win = winnr })
-      end
-
-      return bufnr, winnr
-    end
-
     -- Diagnostic Config
     -- See :help vim.diagnostic.Opts
     vim.diagnostic.config {
       severity_sort = true,
       float = { border = 'rounded', source = 'if_many' },
       underline = { severity = vim.diagnostic.severity.ERROR },
-      -- signs = vim.g.have_nerd_font and {
-      --   text = {
-      --     [vim.diagnostic.severity.ERROR] = '󰅚 ',
-      --     [vim.diagnostic.severity.WARN] = '󰀪 ',
-      --     [vim.diagnostic.severity.INFO] = '󰋽 ',
-      --     [vim.diagnostic.severity.HINT] = '󰌶 ',
-      --   },
-      -- } or {},
       signs = false,
       virtual_text = {
         source = 'if_many',
@@ -262,7 +153,14 @@ return {
     --  - settings (table): Override the default settings passed when initializing the server.
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
     local servers = {
-      -- clangd = {},
+      -- C/C++ (clangd ships its own libclang via Mason; MinGW gcc headers picked up too).
+      -- For project-wide indexing, drop a compile_commands.json or a .clangd at project root.
+      clangd = {},
+
+      -- C# / .NET (OmniSharp; needs system .NET SDK, present). Works on Neovim 0.11.
+      -- Upgrade path: roslyn.nvim is faster but requires Neovim >= 0.12 (you're on 0.11).
+      omnisharp = {},
+
       -- pyright = {},
 
       -- Go LSP
@@ -315,37 +213,72 @@ return {
       --   filetypes = { 'html', 'css', 'javascriptreact', 'typescriptreact' },
       -- },
 
-      -- Python LSP: pylsp with Jedi (great Django support, proper field completions)
-      -- Install: pip install python-lsp-server pylsp-rope
-      -- NOTE: Ruff linting is handled by standalone ruff LSP (faster, better code actions)
+      -- Python LSP: pylsp + Jedi (Django/DRF completions). Install: pip install python-lsp-server pylsp-rope
+      -- Linting/formatting handled by the standalone ruff LSP + conform, not pylsp.
       pylsp = {
-        -- Inject the selected venv python into jedi.environment at (re)start so
-        -- Jedi resolves site-packages (Django, DRF, etc.). Covers pylsp restarts
-        -- that happen independently of venv-selector's live-update hook.
-        on_new_config = function(new_config)
+        -- root_markers tiered: a Python marker must beat the monorepo's top-level .git
+        -- (last resort), so editing backend/x.py roots pylsp at backend/ = scoped, faster.
+        root_markers = {
+          { 'manage.py', 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile' },
+          '.git',
+        },
+        -- Inject the selected venv into jedi.environment on every (re)start so Jedi sees
+        -- site-packages. vim.lsp.config skips lspconfig's on_new_config, hence before_init.
+        before_init = function(_, config)
+          local suffix = vim.fn.has('win32') == 1 and '\\Scripts\\python.exe' or '/bin/python'
+
+          -- 3rd fallback: walk up from root for a venv dir (env/.venv/venv) so the repo root
+          -- auto-resolves backend/env without :VenvSelect. Upward-only — relies on root_markers
+          -- having scoped the root to backend/.
+          local function find_venv_python(start_dir)
+            if not start_dir or start_dir == '' then return nil end
+            for _, name in ipairs({ 'env', '.venv', 'venv' }) do
+              local hit = vim.fs.find(name, { path = start_dir, upward = true, type = 'directory' })[1]
+              if hit then
+                -- Normalize: vim.fs.find returns '/' paths on Windows but suffix is '\',
+                -- so jedi never sees mixed separators (env/Scripts\python.exe).
+                local py = vim.fs.normalize(hit .. suffix)
+                if (vim.uv or vim.loop).fs_stat(py) then return py end
+              end
+            end
+            return nil
+          end
+
+          -- Priority (first non-empty wins): explicit :VenvSelect > activated shell > discovered.
           local ok, vs = pcall(require, 'venv-selector')
           local venv_py = ok and vs.python and vs.python() or nil
           if (venv_py == nil or venv_py == '') and vim.env.VIRTUAL_ENV ~= nil then
-            local suffix = vim.fn.has('win32') == 1 and '\\Scripts\\python.exe' or '/bin/python'
             venv_py = vim.env.VIRTUAL_ENV .. suffix
           end
+          if venv_py == nil or venv_py == '' then
+            venv_py = find_venv_python(config.root_dir or vim.fn.getcwd())
+          end
+
           if venv_py and venv_py ~= '' then
-            new_config.settings = vim.tbl_deep_extend('force', new_config.settings or {}, {
-              pylsp = { plugins = { jedi = { environment = venv_py } } },
-            })
+            -- Mutate in place: config.settings IS client.settings (the table pylsp pulls
+            -- via workspace/configuration). Reassigning orphans it and drops the env.
+            config.settings = config.settings or {}
+            config.settings.pylsp = config.settings.pylsp or {}
+            config.settings.pylsp.plugins = config.settings.pylsp.plugins or {}
+            config.settings.pylsp.plugins.jedi = config.settings.pylsp.plugins.jedi or {}
+            config.settings.pylsp.plugins.jedi.environment = venv_py
           end
         end,
         settings = {
           pylsp = {
+            -- signature.formatter (top-level, NOT plugins.black) defaults to black, shelling a
+            -- ~1s subprocess per signature on Windows -> hover/completion timeouts. '' disables it.
+            signature = { formatter = '' },
             plugins = {
-              -- Jedi completion (core completions)
+              -- Jedi: core completions. eager=false because eager=true resolves docs+signature
+              -- for every candidate per keystroke (~15-18s); blink resolves lazily via resolve.
               jedi_completion = {
                 enabled = true,
                 include_params = true,
                 include_class_objects = true,
                 include_function_objects = true,
                 fuzzy = true,
-                eager = true,
+                eager = false,
               },
               jedi_hover = { enabled = true },
               jedi_references = { enabled = true },
@@ -356,38 +289,29 @@ return {
                 follow_imports = true,
                 follow_builtin_imports = true,
               },
-              -- Rope for refactoring and auto-imports (pip install pylsp-rope)
-              rope_autoimport = {
-                enabled = true,
-                memory = true,
-              },
-              rope_completion = { enabled = true, eager = true },
-              -- DISABLED: Ruff is handled by standalone ruff LSP (avoids encoding conflict)
+              -- Rope off (pip install pylsp-rope): on this ~40k-module monorepo it builds a
+              -- multi-GB sqlite index on the request path -> "database is locked"/timeouts;
+              -- jedi covers completion. rope_completion is a redundant second source.
+              -- TODO: evaluate basedpyright for fast auto-import-on-completion.
+              rope_autoimport = { enabled = false },
+              rope_completion = { enabled = false },
+              -- All off: ruff LSP owns lint/code-actions, conform owns formatting. These are
+              -- real default-on pylsp plugins, so they stay disabled to avoid double work.
               ruff = { enabled = false },
-              -- Disable built-in linters (using ruff LSP instead)
               pycodestyle = { enabled = false },
               pylint = { enabled = false },
               pyflakes = { enabled = false },
               mccabe = { enabled = false },
-              -- Disable built-in formatters (using conform.nvim)
               autopep8 = { enabled = false },
               yapf = { enabled = false },
-              black = { enabled = false },
             },
           },
         },
       },
 
-      -- Ruff LSP - Fast Python linter with code actions (like VSCode)
-      -- Uses project's ruff.toml or pyproject.toml [tool.ruff] config
-      ruff = {
-        init_options = {
-          settings = {
-            lineLength = 120,
-            -- Ruff will auto-detect config from ruff.toml or pyproject.toml
-          },
-        },
-      },
+      -- Ruff LSP: fast Python lint + code actions. No lineLength override on purpose — it
+      -- shadows the project's ruff.toml (88), desyncing in-editor E501 from CLI/conform/CI.
+      ruff = {},
 
       -- Config files
       jsonls = {},  -- JSON (package.json, tsconfig, etc.)
@@ -443,6 +367,8 @@ return {
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Lua formatter (used by conform)
+      'gofumpt', -- Go formatter (used by conform)
+      'goimports', -- Go imports formatter (used by conform)
       -- Uncomment formatters below if you want to use them instead of LSP:
       -- 'ruff', -- Python linter + formatter (fast)
       -- 'prettierd', -- Frontend formatter (faster than prettier)
@@ -453,19 +379,17 @@ return {
       run_on_start = false,
     }
 
+    -- mason-lspconfig v2 + Neovim 0.11 native LSP: register per-server config via
+    -- vim.lsp.config, then let mason-lspconfig's automatic_enable run vim.lsp.enable
+    -- for installed servers. (The old `handlers`/`automatic_installation` keys are a
+    -- v1-only API and are silently ignored by v2.)
+    vim.lsp.config('*', { capabilities = capabilities })
+    for server_name, server in pairs(servers) do
+      vim.lsp.config(server_name, server)
+    end
+
     require('mason-lspconfig').setup {
-      ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-      automatic_installation = false,
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          -- This handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for ts_ls)
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
-        end,
-      },
+      ensure_installed = {}, -- installs are driven by mason-tool-installer above
     }
   end,
 }

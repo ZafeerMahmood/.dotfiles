@@ -9,6 +9,12 @@ if vim.fn.has 'win32' == 1 then
   vim.o.shellxquote = ''
 end
 
+-- Disable unused language-host providers (no perl/ruby/node remote-plugin hosts in use).
+-- Silences :checkhealth provider warnings. (python3 left at default.)
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
+
 -- Spell check (deferred to autocmd — avoids loading spell files on dashboard)
 vim.opt.spelllang = 'en_us'
 

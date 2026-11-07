@@ -47,11 +47,12 @@ return {
     -- Document existing key chains
     spec = {
       { '<leader>a', group = '[A]I Claude', icon = { icon = ' ', color = 'orange' } },
-      { '<leader>b', group = '[B]uffer', icon = { icon = '󰈔 ', color = 'cyan' } },
+      { '<leader>9', group = '99 AI', icon = { icon = '󰚩 ', color = 'orange' }, mode = { 'n', 'v' } },
       { '<leader>c', group = '[C]ode', icon = { icon = ' ', color = 'blue' } },
+      { '<leader>d', group = '[D]iagnostics/Trouble', icon = { icon = ' ', color = 'red' } },
       { '<leader>g', group = '[G]it', icon = { icon = '󰊢 ', color = 'red' } },
       { '<leader>h', group = 'Git [H]unk', icon = { icon = ' ', color = 'green' }, mode = { 'n', 'v' } },
-      { '<leader>m', group = '[M]arks (Harpoon)', icon = { icon = '󱡀 ', color = 'cyan' } },
+      { '<leader>v', group = '[V]env', icon = { icon = '󰌠 ', color = 'green' } },
       { '<leader>l', group = '[L]int', icon = { icon = '󱉶 ', color = 'yellow' } },
       { '<leader>s', group = '[S]earch', icon = { icon = ' ', color = 'purple' } },
       { '<leader>sn', group = '[N]oice', icon = { icon = '󰍡 ', color = 'yellow' } },
@@ -63,6 +64,7 @@ return {
       { '<leader>x', icon = { icon = '󰅖 ', color = 'red' } },
       { '<leader>X', icon = { icon = '󰅗 ', color = 'red' } },
       { '<leader>z', icon = { icon = '⚡', color = 'yellow' } },
+      { '<leader>o', icon = { icon = '󰊠 ', color = 'cyan' } },
       { '<leader>/', icon = { icon = '󰆉 ', color = 'grey' } },
     },
   },

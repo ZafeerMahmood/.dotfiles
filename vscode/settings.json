@@ -7,6 +7,17 @@
   "workbench.iconTheme": "icons",
   "workbench.tips.enabled": false,
   "terminal.integrated.fontFamily": "JetBrainsMonoNL Nerd Font Propo",
+
+  "vim.statusBarColorControl": true,
+  "vim.statusBarColors.normal": ["#89b4fa", "#1e1e2e"],
+  "vim.statusBarColors.insert": ["#a6e3a1", "#1e1e2e"],
+  "vim.statusBarColors.visual": ["#cba6f7", "#1e1e2e"],
+  "vim.statusBarColors.visualline": ["#cba6f7", "#1e1e2e"],
+  "vim.statusBarColors.visualblock": ["#cba6f7", "#1e1e2e"],
+  "vim.statusBarColors.replace": ["#f38ba8", "#1e1e2e"],
+  "vim.statusBarColors.commandlineinprogress": ["#fab387", "#1e1e2e"],
+
+
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.fixAll.ruff": "explicit"
@@ -79,8 +90,12 @@
       "editor.selectionBackground": "#78dba918",
       "editorLineNumber.activeForeground": "#f6926a"
     },
- 
-    "[GitHub Dark]": {}
+    "[GitHub Dark]": {},
+    "statusBar.background": "#89b4fa",
+    "statusBar.noFolderBackground": "#89b4fa",
+    "statusBar.debuggingBackground": "#89b4fa",
+    "statusBar.foreground": "#1e1e2e",
+    "statusBar.debuggingForeground": "#1e1e2e"
   },
   "editor.tokenColorCustomizations": {
     "[Dark Decay]": {
@@ -94,7 +109,7 @@
             "foreground": "#f1cf8a"
           }
         }
-      ],
+      ]
     },
     "[decay-custom]": {
       "textMateRules": [
@@ -138,7 +153,7 @@
   "errorLens.enabledDiagnosticLevels": [
     "error",
     "warning",
-    "info",
+    "info"
   ],
   "editor.lineNumbers": "on",
   "editor.glyphMargin": true,
@@ -305,5 +320,6 @@
   "accessibility.signals.lineHasWarning": {
     "sound": "off",
     "announcement": "auto"
-  }
+  },
+  "chat.disableAIFeatures": true
 }

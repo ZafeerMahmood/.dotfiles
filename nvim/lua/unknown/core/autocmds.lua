@@ -7,14 +7,6 @@ for _, f in ipairs(vim.fn.glob(shada_dir .. '/main.shada.tmp.*', false, true)) d
   vim.uv.fs_unlink(f)
 end
 
--- Ensure .mjs and other JS variants are recognized correctly
-vim.filetype.add {
-  extension = {
-    mjs = 'javascript',
-    cjs = 'javascript',
-  },
-}
-
 -- Transparent background — :TransparentBg to toggle
 local transparent = { enabled = false, saved = {} }
 local bg_groups = { 'Normal', 'NormalNC', 'NormalFloat', 'SignColumn', 'EndOfBuffer' }
@@ -72,5 +64,17 @@ vim.api.nvim_create_autocmd('FileType', {
       vim.wo.wrap = not vim.wo.wrap
       vim.notify('wrap = ' .. tostring(vim.wo.wrap))
     end, { buffer = true, desc = '[T]oggle [W]rap' })
+  end,
+})
+
+-- Close gitsigns diff splits (<leader>gd / <leader>hD) with `q`
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  group = vim.api.nvim_create_augroup('gitsigns-diff-close', { clear = true }),
+  pattern = 'gitsigns://*',
+  callback = function(args)
+    vim.keymap.set('n', 'q', function()
+      vim.cmd 'diffoff!'
+      pcall(vim.cmd, 'close') -- no-op if it's the last window (avoids E444)
+    end, { buffer = args.buf, nowait = true, desc = 'Close gitsigns diff' })
   end,
 })
