@@ -63,7 +63,7 @@ if pgrep -xq AeroSpace; then
     nohup sketchybar >/dev/null 2>&1 &
   fi
   if ! pgrep -xq borders; then
-    nohup borders active_color=0xff8dbcff inactive_color=0xffa1a1a1 width=2.0 style=square >/dev/null 2>&1 &
+    nohup borders active_color=0xff8dbcff inactive_color=0xffa1a1a1 width=2.0 style=round >/dev/null 2>&1 &
   fi
 else
   # NOTE: first launch runs after-startup-command, which starts sketchybar + borders

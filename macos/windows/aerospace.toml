@@ -6,7 +6,7 @@ start-at-login = true
 # NOTE: bar + borders live and die with the WM, like Zebar did with GlazeWM
 after-startup-command = [
   'exec-and-forget sketchybar',
-  'exec-and-forget borders active_color=0xff8dbcff inactive_color=0xffa1a1a1 width=2.0 style=square',
+  'exec-and-forget borders active_color=0xff8dbcff inactive_color=0xffa1a1a1 width=2.0 style=round',
 ]
 
 # Tell SketchyBar when workspace focus changes
@@ -41,7 +41,7 @@ inner.vertical = 6
 outer.left = 6
 outer.bottom = 6
 outer.right = 6
-outer.top = 43
+outer.top = 40
 
 [mode.main.binding]
 # Focus

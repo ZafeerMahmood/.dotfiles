@@ -10,7 +10,7 @@ TEXT_COLOR=0xe6ffffff
 ICON_COLOR=0xf27382af
 BUTTON_COLOR=0x26ffffff
 
-sketchybar --bar position=top height=40 color=0xe6030110 border_width=0 \
+sketchybar --bar position=top height=40 color=0xff1e1e2e border_width=0 \
   shadow=off sticky=on topmost=off padding_left=22 padding_right=22
 
 sketchybar --default \
