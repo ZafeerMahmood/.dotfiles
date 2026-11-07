@@ -1,6 +1,7 @@
 <#
 .SYNOPSIS
-    Bundles private files (env files, notes, Claude Code config, agent configs, optional DB dumps) into one zip
+    Bundles private files (env files, per-repo .claude/.docs/notes/tmp, Claude Code config + memories,
+    optional DB dumps) into one zip
     on the Desktop for the Mac. Read-only on this PC except for the zip and a temp staging folder.
 
 .DESCRIPTION
@@ -20,7 +21,6 @@
 param(
     [switch]$IncludePgDump,
     [switch]$IncludeTranscripts,
-    [string[]]$Databases = @('taxgpt', 'djangoTest', 'ai'),
     [string]$OutputDirectory = [Environment]::GetFolderPath('Desktop')
 )
 
@@ -79,7 +79,7 @@ Get-ChildItem -LiteralPath $envTarget -Recurse -Force -File -ErrorAction Silentl
 }
 
 Write-Host '==> Project private folders'
-$privateFolderNames = @('.docs', '.superpowers', 'notes', '.fallow', 'tmp', '.gemini')
+$privateFolderNames = @('.claude', '.docs', '.notes', 'notes', '.tmp', 'tmp', '.superpowers', '.fallow')
 foreach ($repository in Get-ChildItem -LiteralPath $workDirectory -Directory -Force) {
     foreach ($folderName in $privateFolderNames) {
         $folderPath = Join-Path $repository.FullName $folderName
@@ -89,49 +89,8 @@ foreach ($repository in Get-ChildItem -LiteralPath $workDirectory -Directory -Fo
     }
 }
 
-$workExtras = @(
-    'TaxGPT_App\.claude\CLAUDE.md',
-    'TaxGPT_App\.claude\settings.local.json',
-    'TaxGPT_App\.claude\plans',
-    'TaxGPT_App\.claude\projects',
-    'TaxGPT_App\backend\script.py',
-    'TaxGPT_App\backend\taxbiz_script.py',
-    'TaxGPT_App\frontend\src\app\(app)\test',
-    'TaxGPT_App\frontend\lib\rollbar\RollbarClientProvider.tsx',
-    'TaxGPT_ai_services\.claude',
-    'TaxGPT_ai_services\runbook-v1.md',
-    'TaxGPT_ai_services\app\api\document_selection',
-    'TaxGPT_ai_services\app\api\imports',
-    'TaxGPT_ai_services\app\exp',
-    'TaxGPT_ai_services\app\core\config\loader_aa_review.py',
-    'TaxGPT_ai_services\app\core\config\loader_research.py',
-    'TaxGPT_cowork\.claude\CLAUDE.md',
-    'TaxGPT_cowork\.claude\settings.local.json',
-    'TaxGPT_cowork\.claude\skills',
-    'TaxGPT_cowork-formatting\.claude',
-    'TaxGPT_ui_library\.claude\CLAUDE.md',
-    'TaxGPT_ui_library\.claude\settings.local.json',
-    'review-assignments\taxgpt-assignment-review.md',
-    'claude-code-leaked'
-)
-foreach ($relativePath in $workExtras) {
-    Copy-Entry (Join-Path $workDirectory $relativePath) "Desktop\Work\$relativePath"
-}
-
-Write-Host '==> Git stashes as patches'
-$stashDirectory = Join-Path $bundleHome 'mac-export\stashes'
-foreach ($repository in Get-ChildItem -LiteralPath $workDirectory -Directory -Force) {
-    # NOTE: worktrees have a .git file and share the main repo stashes, skip them to avoid duplicates
-    if (-not (Test-Path -LiteralPath (Join-Path $repository.FullName '.git') -PathType Container)) { continue }
-
-    $stashCount = @(git -C $repository.FullName stash list).Count
-    for ($stashIndex = 0; $stashIndex -lt $stashCount; $stashIndex++) {
-        New-Item -ItemType Directory -Force -Path $stashDirectory | Out-Null
-        $patchPath = Join-Path $stashDirectory "$($repository.Name)-stash-$stashIndex.patch"
-        git -C $repository.FullName stash show -p --include-untracked "stash@{$stashIndex}" "--output=$patchPath"
-        $manifestLines.Add("OK       stash: $($repository.Name) stash@{$stashIndex} -> home/mac-export/stashes")
-    }
-}
+# NOTE: not a git repo, so the whole folder has to travel
+Copy-Entry (Join-Path $workDirectory 'claude-code-leaked') 'Desktop\Work\claude-code-leaked'
 
 Write-Host '==> Claude Code'
 $claudeDirectory = Join-Path $HOME '.claude'
@@ -156,21 +115,10 @@ foreach ($name in '.agents', '.agent', 'skills-lock.json') {
     Copy-Entry (Join-Path $HOME $name) $name
 }
 
-Write-Host '==> Codex + Gemini'
-foreach ($name in 'AGENTS.md', 'memories', 'rules', 'skills', 'config.toml') {
-    Copy-Entry (Join-Path $HOME ".codex\$name") ".codex\$name"
-}
-foreach ($name in 'commands', 'extensions', 'settings.json', 'skills') {
-    Copy-Entry (Join-Path $HOME ".gemini\$name") ".gemini\$name"
-}
-
 Write-Host '==> Neovim extras'
 $nvimDirectory = Join-Path $env:LOCALAPPDATA 'nvim'
 foreach ($name in '.claude\CLAUDE.md', '.claude\settings.local.json', '.docs', 'todo.md', 'spell\en.utf-8.add') {
     Copy-Entry (Join-Path $nvimDirectory $name) ".config\nvim\$name"
-}
-foreach ($name in 'CLAUDE.md', 'todo.md') {
-    Copy-Entry (Join-Path $env:LOCALAPPDATA "unknown-decay.nvim\$name") "code\unknown-decay.nvim\$name"
 }
 
 Write-Host '==> Loose notes'
@@ -188,7 +136,12 @@ if ($IncludePgDump) {
     $securePassword = Read-Host 'postgres password' -AsSecureString
     $env:PGPASSWORD = [System.Net.NetworkCredential]::new('', $securePassword).Password
     try {
-        foreach ($databaseName in $Databases) {
+        $databaseNames = & "$pgBinDirectory\psql.exe" -U postgres -h localhost -Atc `
+            "select datname from pg_database where not datistemplate and datname <> 'postgres' order by 1"
+        if ($LASTEXITCODE -ne 0) { throw 'psql could not list databases, wrong password?' }
+        $manifestLines.Add("databases: $($databaseNames -join ', ')")
+
+        foreach ($databaseName in $databaseNames) {
             & "$pgBinDirectory\pg_dump.exe" -U postgres -h localhost -Fc -f "$dumpDirectory\$databaseName.dump" $databaseName
             $status = 'OK      '
             if ($LASTEXITCODE -ne 0) { $status = 'FAILED  ' }
