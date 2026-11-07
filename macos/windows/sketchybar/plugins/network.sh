@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH="/opt/homebrew/bin:$PATH"
 # Wifi / ethernet / offline icon plus SSID.
 # NOTE: macOS has no CLI for wifi signal strength anymore, so the icon is always full strength.
 # NOTE: macOS 15+ may redact the SSID unless Location Services is allowed; then only the icon shows.

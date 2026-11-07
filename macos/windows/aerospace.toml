@@ -26,6 +26,12 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 automatically-unhide-macos-hidden-apps = false
 
+# NOTE: login items get a bare PATH, so exec commands could not find sketchybar
+[exec]
+inherit-env-vars = true
+[exec.env-vars]
+PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
+
 [key-mapping]
 preset = 'qwerty'
 
@@ -38,7 +44,8 @@ inner.vertical = 6
 outer.left = 6
 outer.bottom = 6
 outer.right = 6
-outer.top = 40
+# NOTE: built-in notch screen already reserves the notch row, so only a small gap there
+outer.top = [{ monitor."built-in" = 3 }, 40]
 
 [mode.main.binding]
 # Focus

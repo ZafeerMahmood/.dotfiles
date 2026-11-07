@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH="/opt/homebrew/bin:$PATH"
 # Same rules as Zebar workspace buttons: show workspaces that have windows or are on screen,
 # lighter background when displayed, blue when focused.
 

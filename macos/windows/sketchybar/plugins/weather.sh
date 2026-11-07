@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH="/opt/homebrew/bin:$PATH"
 # IP-based weather like Zebar's weather provider, via wttr.in (no API key).
 # %x is wttr's plain-text condition symbol, %t the temperature in C (because of &m).
 

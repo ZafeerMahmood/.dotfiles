@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH="/opt/homebrew/bin:$PATH"
 battery_info=$(pmset -g batt)
 charge_percent=$(echo "$battery_info" | grep -Eo '[0-9]+%' | head -1 | tr -d '%')
 

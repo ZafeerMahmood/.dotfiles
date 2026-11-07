@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH="/opt/homebrew/bin:$PATH"
 # Total CPU usage across all cores. Turns red above 85% like the Zebar widget.
 
 core_count=$(sysctl -n hw.ncpu)
