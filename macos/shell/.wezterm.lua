@@ -5,14 +5,6 @@ local action = wezterm.action
 local config = wezterm.config_builder()
 local leader_prefix = utf8.char(0x1f30a) -- ocean wave emoji
 
--- Shell: pwsh like Windows Terminal, falls back to the login shell (zsh) if pwsh is missing
-for _, pwsh_path in ipairs({ "/opt/homebrew/bin/pwsh", "/usr/local/bin/pwsh" }) do
-    if wezterm.glob(pwsh_path)[1] then
-        config.default_prog = { pwsh_path, "-Login" }
-        break
-    end
-end
-
 -- Font (Windows Terminal: JetBrainsMonoNL Nerd Font Propo, semi-bold, 16)
 -- NOTE: macOS renders points larger than Windows at 100% scaling, drop to 14-15 if it feels big
 config.font = wezterm.font("JetBrainsMonoNL Nerd Font Propo", { weight = "DemiBold" })
