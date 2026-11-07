@@ -44,8 +44,8 @@ inner.vertical = 6
 outer.left = 6
 outer.bottom = 6
 outer.right = 6
-# NOTE: built-in notch screen already reserves the notch row, so only a small gap there
-outer.top = [{ monitor."built-in" = 3 }, 40]
+# NOTE: built-in screen reserves 29px already, 40 bar - 29 + 4 gap = 15
+outer.top = [{ monitor."built-in" = 15 }, 40]
 
 [mode.main.binding]
 # Focus

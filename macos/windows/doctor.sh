@@ -38,9 +38,7 @@ grep -n 'outer.top' ~/.config/aerospace/aerospace.toml
 section "bar items"
 sketchybar --query bar 2>&1 | grep -E '"height"|"items"' -A12 | head -20
 for item in date battery cpu memory network space.1 space.2; do
-  printf '%-10s label=%s drawing=%s\n' "$item" \
-    "$(sketchybar --query "$item" 2>/dev/null | grep -m1 '"value"' | cut -d'"' -f4)" \
-    "$(sketchybar --query "$item" 2>/dev/null | grep -m1 '"drawing"' | cut -d'"' -f4)"
+  sketchybar --query "$item" 2>/dev/null | jq -r --arg item "$item" '"\($item)  label=\(.label.value)  drawing=\(.geometry.drawing)"'
 done
 
 section "workspace sync test"
