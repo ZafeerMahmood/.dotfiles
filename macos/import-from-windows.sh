@@ -39,7 +39,7 @@ if [ -d "$bundle_home/Desktop/Work" ]; then
   done
 fi
 
-echo "==> Home files (nvim extras, .codex, .gemini, Desktop/TREE, mac-export)"
+echo "==> Home files (nvim extras, .codex, .gemini, .doc, mac-export)"
 rsync -a \
   --exclude '/.claude' --exclude '/.agents' --exclude '/.agent' --exclude '/skills-lock.json' \
   --exclude '/Desktop/Work' \
@@ -61,6 +61,5 @@ Done. Left to do by hand:
   - Postgres dumps (if exported): $HOME/mac-export/pg, restore per macos/tools/databases.md section 3
   - Stash patches (if any): $HOME/mac-export/stashes, apply with: git -C <repo> apply <patch>
   - Fix Windows paths in ~/.codex/config.toml (drop [windows], notify exe) and ~/.gemini/extensions/extension-enablement.json
-  - cli-vault: cd ~/Desktop/TREE/Personal_Projects/cli-vault && npm install && npm link
   - Delete $staging_directory and the zip once everything works (they hold secrets)
 NEXT

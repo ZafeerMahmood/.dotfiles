@@ -173,12 +173,8 @@ foreach ($name in 'CLAUDE.md', 'todo.md') {
     Copy-Entry (Join-Path $env:LOCALAPPDATA "unknown-decay.nvim\$name") "code\unknown-decay.nvim\$name"
 }
 
-Write-Host '==> Personal projects'
-# NOTE: ~/.vault is cli-vault data, ~/.doc holds loose notes
-foreach ($name in '.vault', '.doc') {
-    Copy-Entry (Join-Path $HOME $name) $name
-}
-Copy-Entry (Join-Path $HOME 'Desktop\TREE\Personal_Projects\cli-vault') 'Desktop\TREE\Personal_Projects\cli-vault'
+Write-Host '==> Loose notes'
+Copy-Entry (Join-Path $HOME '.doc') '.doc'
 
 if ($IncludePgDump) {
     Write-Host '==> Postgres dumps'

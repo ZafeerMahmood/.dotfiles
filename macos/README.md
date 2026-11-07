@@ -15,10 +15,6 @@ clone and import in order (safe to re-run). The list below is the same thing by 
   - TaxGPT_cowork: push 4 ahead branches + 7 local-only (`git push -u origin <branch>`)
   - TaxGPT_cowork-formatting: `git push -u origin chore-prettier-setup`
   - chrome-extension: `git checkout package.json`; taxgpt_mobile: `git checkout android/` (Windows junk)
-- [ ] 0.2b Personal repos in `~/Desktop/TREE/Personal_Projects` (only cli-vault is exported):
-  - No remote, create one or copy by hand: `master-notes` (16 commits), `zenterm` (11), `cli-vault` (4 + 6 dirty)
-  - Unpushed: `phonecam` (2), `Blog/blog` (1 + 2 dirty), `open-source-forks/gemini-cli` (2 + 1 dirty)
-  - Rest of `Desktop/TREE` (15 GB, courses, old gigs, certificates) is not exported; copy by USB if wanted
 - [ ] 0.3 Confirm DB list (asks postgres password): `psql -U postgres -h localhost -l` and `psql -U postgres -h localhost -c "\du"`
 - [ ] 0.4 Optional: re-copy editor settings if changed since export (commands in `macos/git-editors/README.md`)
 - [ ] 0.5 Commit + push dotfiles: `git -C ~/.dotfiles add -A; git -C ~/.dotfiles commit -m "macos setup"; git -C ~/.dotfiles push`
@@ -96,7 +92,6 @@ clone and import in order (safe to re-run). The list below is the same thing by 
 - [ ] 7.11 chrome-extension: `cd ~/Desktop/Work/chrome-extension && npm install && npm start`
 - [ ] 7.12 taxgpt_mobile: `cd ~/Desktop/Work/taxgpt_mobile && corepack enable && yarn install`
   `bundle install && (cd ios && bundle exec pod install) && yarn ios` (and `yarn android`)
-- [ ] 7.13 cli-vault: `cd ~/Desktop/TREE/Personal_Projects/cli-vault && npm install && npm link`
 - [ ] 7.14 `stripe login`, `vercel login`
 
 ## 8. Claude Code
