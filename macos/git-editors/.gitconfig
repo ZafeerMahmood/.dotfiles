@@ -1,15 +1,15 @@
-# Mac version of ~/.gitconfig. install.sh symlinks this to ~/.gitconfig.
-# Repos under ~/Desktop/TREE use the personal identity, ~/Desktop/Work the work identity.
+# Mac version of ~/.gitconfig, symlinked to ~/.gitconfig.
+# Work laptop: work identity by default, personal only for dotfiles and ~/Desktop/TREE.
+
+[user]
+  name = ZafeerTaxGPT
+  email = zafeer@taxgpt.com
+
+[includeIf "gitdir:~/.dotfiles/"]
+  path = ~/.dotfiles/macos/git-editors/.gitconfig-personal
 
 [includeIf "gitdir:~/Desktop/TREE/"]
   path = ~/.dotfiles/macos/git-editors/.gitconfig-personal
-
-[includeIf "gitdir:~/Desktop/Work/"]
-  path = ~/.dotfiles/macos/git-editors/.gitconfig-work
-
-[user]
-  name = ZafeerMahmood
-  email = zafeer7460@gmail.com
 
 [core]
   pager = delta
